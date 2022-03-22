@@ -1,32 +1,37 @@
 const NodeHelper = require('node_helper');
-const fetch = require("node-fetch");
-const fs = require("fs");
-const path = require("path");
-const util = require("util");
 
+const Alpaca = require('@alpacahq/alpaca-trade-api')
 module.exports = NodeHelper.create({
-        
-    start: function(){
+
+    start: function () {
         console.log(this.name + ' helper started ...');
     },
 
-    socketNotificationReceived : function(notification, payload){
+    socketNotificationReceived: function (notification, payload) {
         var self = this;
-		if (notification === 'FETCH_POSITIONS') {
-            const config = payload;
-            const url= config.apiServer + "v1/accounts/" + config.accountId + "/positions";
+        var account_type = payload.paper ? "PAPER":"LIVE";
 
-            fetch(url,{
-                method: 'GET',
-                headers: {
-                    'Authorization': 'Bearer ' + config.authToken
-                }
+        if (notification === 'FETCH_POSITIONS_'+ account_type) {
+            console.log('FETCH_POSITIONS_'+ account_type)
+            const config = payload;
+            // const url= config.apiServer + "v1/accounts/" + config.accountId + "/positions";
+            const alpaca = new Alpaca({
+                keyId: config.keyId,
+                secretKey:config.secretKey ,
+                paper: config.paper,
             })
-            .then(resp => resp.json())
-            .then(data => {
-                if(data.hasOwnProperty('positions')) {
-                    const positions = data.positions;
-                    const tableData = {
+            alpaca.getPositions().then((positions) => {
+                console.log('Current positions:', positions)
+                if (positions.length==0){
+                    console.log("NO POSITIONS")
+                    var tableData = {
+                        columns: ["no_data"],
+                        rows:[] 
+                    
+                    };
+                }else{
+                    console.log("YES POSITIONS")
+                    var tableData = {
                         columns: Object.keys(positions[0]).filter(column => config.columns.includes(column)),
                         rows: positions.map(position => {
                             return Object.keys(position)
@@ -37,17 +42,14 @@ module.exports = NodeHelper.create({
                             }, [])
                         })
                     };
-                    self.sendSocketNotification('POSITIONS_RECEIVED', {
-                        config,
-                        tableData,
-                    });
-                } else if(data.hasOwnProperty('code') && data.code === 1017) {
-                    console.log("Access token expired");
-                    self.sendSocketNotification('ACCESS_TOKEN_EXPIRED', {});
-                } else {
-                    console.log("Unexpected Error: " + data);
-                }
-            });
+
+                }   
+                console.log(tableData)
+                self.sendSocketNotification('POSITIONS_RECEIVED_'+ account_type, {
+                    config,
+                    tableData,
+                });
+            })
         }
-    },      
+    },
 });
