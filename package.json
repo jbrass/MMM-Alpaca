@@ -1,10 +1,10 @@
 {
-  "name": "mmm-alpaca",
-  "version": "1.0.0",
+  "name": "MMM-Alpaca",
+  "version": "0.0.2",
   "description": "",
   "main": "MMM-Alpaca.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "./node_modules/grunt/bin/grunt"
   },
   "repository": {
     "type": "git",
@@ -18,5 +18,16 @@
   "homepage": "https://github.com/jbrass/MMM-Alpaca#readme",
   "dependencies": {
     "@alpacahq/alpaca-trade-api": "^2.12.1"
+  },
+  "devDependencies": {
+    "grunt": "latest",
+    "grunt-eslint": "latest",
+    "grunt-jsonlint": "latest",
+    "grunt-markdownlint": "latest",
+    "grunt-stylelint": "latest",
+    "grunt-yamllint": "latest",
+    "stylelint": "latest",
+    "stylelint-config-standard": "latest",
+    "time-grunt": "latest"
   }
 }
