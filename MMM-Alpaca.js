@@ -108,24 +108,24 @@ Module.register("MMM-Alpaca", {
                 var tmp = row[decimalColumns['unrealized_pl']];
                 row[decimalColumns['unrealized_pl']] = row[row.length - 1];
                 row[row.length - 1] = tmp;
-                console.log(decimalColumns)
-                console.log(percent_columns)
+                // console.log(decimalColumns)
+                // console.log(percent_columns)
                 row.map((cell, col) => {
                     
                     if (Object.values(decimalColumns).includes(col)) {
 
                         if (!Object.values(percent_columns).includes(col)) {
-                            console.log(cell)
+                            // console.log(cell)
                             cell = Number.parseFloat(cell)
-                            console.log(cell)
+                            // console.log(cell)
                             // cell = cell * 100
-                            console.log(cell)
+                            // console.log(cell)
                             cell = cell.toFixed(2)
-                            console.log(cell)
+                            // console.log(cell)
                         }else{
                             cell = Number.parseFloat(cell)
                             cell = cell.toFixed(2)
-                            console.log(cell)
+                            // console.log(cell)
                         }
 
                         // cell = Number.parseFloat(cell).toFixed(2);
@@ -164,10 +164,10 @@ Module.register("MMM-Alpaca", {
         var self = this;
 
         if (notification === 'POSITIONS_RECEIVED_'+ account_type) {
-            console.log('POSITIONS_RECEIVED_'+ account_type)
+            // console.log('POSITIONS_RECEIVED_'+ account_type)
             const { tableConfig, tableData } = payload;
-            console.log(tableConfig)
-            console.log(tableData)
+            // console.log(tableConfig)
+            // console.log(tableData)
             self.tableData = tableData;
             self.updateDom();
         }

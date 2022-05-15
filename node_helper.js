@@ -12,7 +12,6 @@ module.exports = NodeHelper.create({
         var account_type = payload.paper ? "PAPER":"LIVE";
 
         if (notification === 'FETCH_POSITIONS_'+ account_type) {
-            console.log('FETCH_POSITIONS_'+ account_type)
             const config = payload;
             // const url= config.apiServer + "v1/accounts/" + config.accountId + "/positions";
             const alpaca = new Alpaca({
@@ -21,16 +20,14 @@ module.exports = NodeHelper.create({
                 paper: config.paper,
             })
             alpaca.getPositions().then((positions) => {
-                console.log('Current positions:', positions)
+                // console.log('Current positions:', positions)
                 if (positions.length==0){
-                    console.log("NO POSITIONS")
                     var tableData = {
                         columns: ["no_data"],
                         rows:[] 
                     
                     };
                 }else{
-                    console.log("YES POSITIONS")
                     var tableData = {
                         columns: Object.keys(positions[0]).filter(column => config.columns.includes(column)),
                         rows: positions.map(position => {
@@ -44,7 +41,6 @@ module.exports = NodeHelper.create({
                     };
 
                 }   
-                console.log(tableData)
                 self.sendSocketNotification('POSITIONS_RECEIVED_'+ account_type, {
                     config,
                     tableData,
