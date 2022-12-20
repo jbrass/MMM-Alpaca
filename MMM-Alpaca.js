@@ -71,9 +71,9 @@ Module.register("MMM-Alpaca", {
         const decimalColumns = [
             'unrealized_pl',
             'unrealized_plpc',
-            'change_today', 
-            'market_value', 
-            'current_price', 
+            'change_today',
+            'market_value',
+            'current_price',
             // 'averageEntryPrice', 
             // 'closedPnl', 
             // 'totalCost'
@@ -82,7 +82,7 @@ Module.register("MMM-Alpaca", {
             return acc;
         }, {});
         const self = this;
-        const percent_columns = ['change_today','unrealized_plpc'].reduce((acc, colToFind) => {
+        const percent_columns = ['change_today', 'unrealized_plpc'].reduce((acc, colToFind) => {
             acc[colToFind] = tableData.columns.findIndex(currColumn => currColumn === colToFind);
             return acc;
         }, {});
@@ -111,7 +111,7 @@ Module.register("MMM-Alpaca", {
                 // console.log(decimalColumns)
                 // console.log(percent_columns)
                 row.map((cell, col) => {
-                    
+
                     if (Object.values(decimalColumns).includes(col)) {
 
                         if (!Object.values(percent_columns).includes(col)) {
@@ -122,7 +122,7 @@ Module.register("MMM-Alpaca", {
                             // console.log(cell)
                             cell = cell.toFixed(2)
                             // console.log(cell)
-                        }else{
+                        } else {
                             cell = Number.parseFloat(cell)
                             cell = cell.toFixed(2)
                             // console.log(cell)
@@ -151,19 +151,19 @@ Module.register("MMM-Alpaca", {
     fetchTableData: function () {
         var self = this;
 
-        var account_type = this.config.paper ? "PAPER":"LIVE";
+        var account_type = this.config.paper ? "PAPER" : "LIVE";
         // console.log(account_type)
-      
+
         //this.sendSocketNotification('FETCH_POSITIONS', this.config);
 
-        this.sendSocketNotification( 'FETCH_POSITIONS_'+ account_type, this.config);
+        this.sendSocketNotification('FETCH_POSITIONS_' + account_type, this.config);
     },
 
     socketNotificationReceived: function (notification, payload) {
-        var account_type = this.config.paper ? "PAPER":"LIVE";
+        var account_type = this.config.paper ? "PAPER" : "LIVE";
         var self = this;
 
-        if (notification === 'POSITIONS_RECEIVED_'+ account_type) {
+        if (notification === 'POSITIONS_RECEIVED_' + account_type) {
             // console.log('POSITIONS_RECEIVED_'+ account_type)
             const { tableConfig, tableData } = payload;
             // console.log(tableConfig)
