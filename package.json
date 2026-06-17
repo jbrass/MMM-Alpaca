@@ -29,5 +29,14 @@
     "stylelint": "latest",
     "stylelint-config-standard": "latest",
     "time-grunt": "latest"
+  },
+  "overrides": {
+    "axios": "^1.18.0",
+    "diff": "^5.2.2",
+    "markdown-it": "^14.2.0",
+    "js-yaml": "^4.2.0",
+    "@prantlf/jsonlint": {
+      "ajv": "^8.20.0"
+    }
   }
 }
