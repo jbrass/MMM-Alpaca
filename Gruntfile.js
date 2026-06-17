@@ -4,21 +4,21 @@ module.exports = function (grunt) {
 		pkg: grunt.file.readJSON("package.json"),
 		eslint: {
 			options: {
-				configFile: ".eslintrc.json"
+				overrideConfigFile: "eslint.config.mjs"
 			},
 			target: ["*.js"]
 		},
 		stylelint: {
 			simple: {
 				options: {
-					configFile: ".stylelintrc"
+					configFile: ".stylelintrc.json"
 				},
 				src: ["*.css"]
 			}
 		},
 		jsonlint: {
 			main: {
-				src: ["package.json", "translations/*.json"],
+				src: ["package.json", "package-lock.json"],
 				options: {
 					reporter: "jshint"
 				}
@@ -47,14 +47,15 @@ module.exports = function (grunt) {
 						"MD018": false,
 						"MD012": false,
 						"MD026": false,
-						"MD038": false
+						"MD038": false,
+						"MD034": false
 					}
 				},
-				src: ["README.md", "CHANGELOG.md", "LICENSE.txt"]
+				src: ["README.md", "CHANGELOG.md", "LICENSE"]
 			}
 		},
 		yamllint: {
-			all: [".travis.yml"]
+			all: [".github/workflows/*.yml"]
 		}
 	});
 	grunt.loadNpmTasks("grunt-eslint");
