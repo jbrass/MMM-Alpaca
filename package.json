@@ -33,7 +33,7 @@
   "overrides": {
     "axios": "^1.20.0",
     "diff": "^5.2.2",
-    "markdown-it": "^14.2.0",
+    "markdown-it": "^14.3.3",
     "js-yaml": "^4.2.0",
     "@prantlf/jsonlint": {
       "ajv": "^8.20.0"
